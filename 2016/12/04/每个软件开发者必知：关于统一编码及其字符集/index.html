@@ -1,0 +1,572 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="每个软件开发者必知：关于统一编码及其字符集（没有借口）
+Joel Spolsky  2003年8月8日 星期五
+
+有没有曾想知道神秘的标签Content-Type？ 那个你可能在HTML中引入但却不太了解它是什么？你有没有曾收到来自保加利亚的朋友的电子邮件，主题是&amp;quot;???? ?????? ??? ????&amp;quot;?我很失望地发现，如此多的软件开发者居然没有完全去了解字符集、编码、统一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每个软件开发者必知：关于统一编码及其字符集（别找借口）">
+<meta property="og:url" content="http://yoursite.com/2016/12/04/每个软件开发者必知：关于统一编码及其字符集/index.html">
+<meta property="og:site_name" content="blogs of ZERO">
+<meta property="og:description" content="每个软件开发者必知：关于统一编码及其字符集（没有借口）
+Joel Spolsky  2003年8月8日 星期五
+
+有没有曾想知道神秘的标签Content-Type？ 那个你可能在HTML中引入但却不太了解它是什么？你有没有曾收到来自保加利亚的朋友的电子邮件，主题是&amp;quot;???? ?????? ??? ????&amp;quot;?我很失望地发现，如此多的软件开发者居然没有完全去了解字符集、编码、统一">
+<meta property="og:updated_time" content="2016-12-06T13:41:00.207Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每个软件开发者必知：关于统一编码及其字符集（别找借口）">
+<meta name="twitter:description" content="每个软件开发者必知：关于统一编码及其字符集（没有借口）
+Joel Spolsky  2003年8月8日 星期五
+
+有没有曾想知道神秘的标签Content-Type？ 那个你可能在HTML中引入但却不太了解它是什么？你有没有曾收到来自保加利亚的朋友的电子邮件，主题是&amp;quot;???? ?????? ??? ????&amp;quot;?我很失望地发现，如此多的软件开发者居然没有完全去了解字符集、编码、统一">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/04/每个软件开发者必知：关于统一编码及其字符集/"/>
+
+
+  <title> 每个软件开发者必知：关于统一编码及其字符集（别找借口） | blogs of ZERO </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">blogs of ZERO</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从零开始，一步一个脚印</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule" rel="section">
+            
+            日程
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                每个软件开发者必知：关于统一编码及其字符集（别找借口）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-04T13:23:24+08:00" content="2016-12-04">
+              2016-12-04
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="每个软件开发者必知：关于统一编码及其字符集（没有借口）"><a href="#每个软件开发者必知：关于统一编码及其字符集（没有借口）" class="headerlink" title="每个软件开发者必知：关于统一编码及其字符集（没有借口）"></a>每个软件开发者必知：关于统一编码及其字符集（没有借口）</h1><blockquote>
+<p>Joel Spolsky  2003年8月8日 星期五</p>
+</blockquote>
+<p>有没有曾想知道神秘的标签<code>Content-Type</code>？ 那个你可能在HTML中引入但却不太了解它是什么？<br>你有没有曾收到来自保加利亚的朋友的电子邮件，主题是<code>&quot;???? ?????? ??? ????&quot;?</code><br>我很失望地发现，如此多的软件开发者居然没有完全去了解字符集、编码、统一编码世界里的最新情况。两三年前，<a href="http://www.fogcreek.com/FogBUGZ" title="FogBUGS" target="_blank" rel="external">FogBUGS</a>的一个beta测试者想知道能否处理来自日本的邮件。来自日本？他们有邮件来自日本？我没有办法。当我在观察我们正在用于解析MIME电子邮箱消息的商业版ActiveX控件时，我们发现这插件完全在用字符集做错误的事情，因此我们实际不得不写代码去阻止这错误的转换并进行正确的重做。当我在研究另一个商业版的库，它也一样在字符处理有个完全错误的实现。我和开发那个包的开发者联系，他稍微思考说他们不能对它做任何处理。就像许多编程人员那样，他只是希望事情能够平息下来。<br>但事情并不会平息。当我发现流行的网站开发工具PHP几乎完全无视字符编码的话题，毫无顾虑的使用8个位表示字符，这该死的几乎不可能去开发国际化的网页应用，我觉得，够了够了。<br>因此我发表了一个声明：如果你是在2003年工作的开发者，并且你不懂得字符、字符集、编码和统一编码，而且还让我抓住了，我会让你在潜艇里面刷六个月的盘子，我发誓我一定会这么做。<br>然后另一件事情是：<strong>它没看起来那么难</strong><br>在这篇文章中，我将会用每个工作中的编程人员都该知道的充实你。所有那些关于“无格式文本=ascii=字符是8位的”不仅是错误的，而是大错特错，如果你还是像那样编程的话，那你跟不懂细菌的医生有何区别。麻烦你在完成阅读这篇文章之前不要写任何代码。<br>在开始之前，我先警告一下，如果你是那少数了解国际化的人，你会发现我整体的讨论都会有点过于简单化。我只是在尝试将这浓缩成小节以便于大家知道发生了什么并且能够在任何语言中使用文本而不是没有没有读音的英语单词子集来写代码。我应该要提醒你，字符处理只是创建国际化应用的一小部分而已，但我同时只能写一件事情，所以今天就是字符集了。</p>
+<h1 id="历史角度"><a href="#历史角度" class="headerlink" title="历史角度"></a>历史角度</h1><p>理解这个东西最简单的方式就是从历史说起。<br>你可能会觉得我即将要讲像EBCDIC这样非常老的字符集。好吧，我不讲。EBCDIC跟你的生活无关，我们不需要讲的这么久远。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/24/文档化测试/" rel="next" title="文档化测试">
+                <i class="fa fa-chevron-left"></i> 文档化测试
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/27/Http支持/" rel="prev" title="17.http支持 第五部分:集成终端 《Spring Integration》">
+                17.http支持 第五部分:集成终端 《Spring Integration》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/zero.jpg"
+               alt="ZERO" />
+          <p class="site-author-name" itemprop="name">ZERO</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#每个软件开发者必知：关于统一编码及其字符集（没有借口）"><span class="nav-number">1.</span> <span class="nav-text">每个软件开发者必知：关于统一编码及其字符集（没有借口）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#历史角度"><span class="nav-number">2.</span> <span class="nav-text">历史角度</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZERO</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

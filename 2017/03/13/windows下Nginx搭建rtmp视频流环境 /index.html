@@ -1,0 +1,613 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="本文只是介绍一种本人亲测可用的Nginx搭建rtmp视频流的方式 
+
+测试环境
+windows 7 64位
+nginx 1.7.11.3 Gryphon
+nginx-rtmp-module
+ffmpeg  （20170214 win64）
+VideoLAN
+
+nginx 1.7.11.3 Gryphon,在NGINX for Windows进行下载,这里下载的Nginx由于集成了一些插件等，能够">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows下Nginx搭建rtmp视频流环境">
+<meta property="og:url" content="http://yoursite.com/2017/03/13/windows下Nginx搭建rtmp视频流环境 /index.html">
+<meta property="og:site_name" content="blogs of ZERO">
+<meta property="og:description" content="本文只是介绍一种本人亲测可用的Nginx搭建rtmp视频流的方式 
+
+测试环境
+windows 7 64位
+nginx 1.7.11.3 Gryphon
+nginx-rtmp-module
+ffmpeg  （20170214 win64）
+VideoLAN
+
+nginx 1.7.11.3 Gryphon,在NGINX for Windows进行下载,这里下载的Nginx由于集成了一些插件等，能够">
+<meta property="og:image" content="http://i.imgur.com/wmNa4Mo.png">
+<meta property="og:image" content="http://i.imgur.com/nSLtRdf.png">
+<meta property="og:image" content="http://i.imgur.com/IAtRHUg.png">
+<meta property="og:image" content="http://i.imgur.com/uEiSJ40.png">
+<meta property="og:updated_time" content="2017-03-13T08:58:03.155Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows下Nginx搭建rtmp视频流环境">
+<meta name="twitter:description" content="本文只是介绍一种本人亲测可用的Nginx搭建rtmp视频流的方式 
+
+测试环境
+windows 7 64位
+nginx 1.7.11.3 Gryphon
+nginx-rtmp-module
+ffmpeg  （20170214 win64）
+VideoLAN
+
+nginx 1.7.11.3 Gryphon,在NGINX for Windows进行下载,这里下载的Nginx由于集成了一些插件等，能够">
+<meta name="twitter:image" content="http://i.imgur.com/wmNa4Mo.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/13/windows下Nginx搭建rtmp视频流环境 /"/>
+
+
+  <title> windows下Nginx搭建rtmp视频流环境 | blogs of ZERO </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">blogs of ZERO</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从零开始，一步一个脚印</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule" rel="section">
+            
+            日程
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                windows下Nginx搭建rtmp视频流环境
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-13T13:44:21+08:00" content="2017-03-13">
+              2017-03-13
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本文只是介绍一种本人亲测可用的Nginx搭建rtmp视频流的方式 </p>
+</blockquote>
+<h2 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h2><ul>
+<li>windows 7 64位</li>
+<li><a href="http://nginx-win.ecsds.eu/download/" title="Nginx download" target="_blank" rel="external">nginx 1.7.11.3 Gryphon</a></li>
+<li><a href="https://github.com/arut/nginx-rtmp-module" title="nginx-rtmp-module" target="_blank" rel="external">nginx-rtmp-module</a></li>
+<li><a href="http://ffmpeg.org/" title="ffmpeg" target="_blank" rel="external">ffmpeg</a>  （20170214 win64）</li>
+<li><a href="http://www.videolan.org/vlc/stats/downloads.html" title="VideoLAN download" target="_blank" rel="external">VideoLAN</a></li>
+</ul>
+<p>nginx 1.7.11.3 Gryphon,在<a href="http://nginx-win.ecsds.eu/download/" title="Nginx download" target="_blank" rel="external">NGINX for Windows</a>进行下载,这里下载的Nginx由于集成了一些插件等，能够更加方便的在windows下进行使用。<br>nginx-rtmp-module则是Nginx能够扩展到rtmp视频流的插件 　　　FFmpeg:FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序  </p>
+<h2 id="搭建过程与步骤"><a href="#搭建过程与步骤" class="headerlink" title="搭建过程与步骤"></a>搭建过程与步骤</h2><ol>
+<li>首先下载好nginx和nginx-rtmp-module并解压,以及安装ffmpeg(ffmpeg安装过程自行google）</li>
+<li>将解压后的nginx-rtmp-module放到nginx目录下<img src="http://i.imgur.com/wmNa4Mo.png" alt=""></li>
+<li><p>在nginx目录下conf文件夹新建<strong>nginx-win-rtmp.conf</strong>,并加入以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">worker_processes  2;</div><div class="line">events &#123;</div><div class="line">    worker_connections  8192;</div><div class="line">&#125;</div><div class="line">rtmp &#123;</div><div class="line">    server &#123;</div><div class="line">        listen 1935;</div><div class="line">        chunk_size 4000;</div><div class="line">        application cameragun &#123;</div><div class="line">             live on;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">http &#123;</div><div class="line">    include       mime.types;</div><div class="line">    default_type  application/octet-stream;</div><div class="line"></div><div class="line">    sendfile        off;</div><div class="line"></div><div class="line">    server_names_hash_bucket_size 128;</div><div class="line"></div><div class="line">    client_body_timeout   10;</div><div class="line">    client_header_timeout 10;</div><div class="line">    keepalive_timeout     30;</div><div class="line">    send_timeout          10;</div><div class="line">    keepalive_requests    10;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen       80;</div><div class="line">        server_name  localhost;</div><div class="line"></div><div class="line"></div><div class="line">        location /stat &#123;</div><div class="line">            rtmp_stat all;</div><div class="line">            rtmp_stat_stylesheet stat.xsl;</div><div class="line">        &#125;</div><div class="line">        location /stat.xsl &#123;</div><div class="line">            root nginx-rtmp-module/;</div><div class="line">        &#125;</div><div class="line">        location /control &#123;</div><div class="line">            rtmp_control all;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        location / &#123;</div><div class="line">            root   html;</div><div class="line">            index  index.html index.htm;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        error_page   500 502 503 504  /50x.html;</div><div class="line">        location = /50x.html &#123;</div><div class="line">            root   html;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>cmd进入nginx目录，使用命令<code>nginx.exe -c conf\nginx-win-rtmp.conf</code>命令启动nginx</p>
+</li>
+<li>打开浏览器，输入localhost检查是否启动了nginx，若未正确启动，查看nginx目录下logs目录中的日志判断异常</li>
+<li>正确启动后，基本的nginx rtmp视频流环境基本搭建完成；通过使用ffmpeg进行视频流的转发来验证视频流是否运行正常<img src="http://i.imgur.com/nSLtRdf.png" alt=""></li>
+<li>推送视频流以后，使用VideoLAN接收视频流，查看推送的视频<img src="http://i.imgur.com/IAtRHUg.png" alt=""> <img src="http://i.imgur.com/uEiSJ40.png" alt=""></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/27/Http支持/" rel="next" title="17.http支持 第五部分:集成终端 《Spring Integration》">
+                <i class="fa fa-chevron-left"></i> 17.http支持 第五部分:集成终端 《Spring Integration》
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/18/junit4测试指定log4j2测试框架配置文件/" rel="prev" title="junit4+log4j2 指定log4j2配置文件">
+                junit4+log4j2 指定log4j2配置文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/zero.jpg"
+               alt="ZERO" />
+          <p class="site-author-name" itemprop="name">ZERO</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#测试环境"><span class="nav-number">1.</span> <span class="nav-text">测试环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建过程与步骤"><span class="nav-number">2.</span> <span class="nav-text">搭建过程与步骤</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZERO</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
